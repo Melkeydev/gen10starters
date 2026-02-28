@@ -194,8 +194,7 @@ export default function Home() {
                     {/* Vote bar - only visible after voting */}
                     {voted && (
                       <div className="mb-3">
-                        <div className="mb-1 flex justify-between text-sm font-medium">
-                          <span>{votes[starter.id]} votes</span>
+                        <div className="mb-1 flex justify-end text-sm font-medium">
                           <span>{pct}%</span>
                         </div>
                         <div className="h-3 overflow-hidden rounded-full bg-accent-light">
