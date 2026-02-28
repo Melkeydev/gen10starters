@@ -45,6 +45,19 @@
   --foreground: #1e3a5f;
 }
 
+/* Tie theme - combined colors */
+[data-theme="tie"] {
+  --accent: #8b5cf6;
+  --accent-light: #f0eaff;
+  --accent-glow: #a78bfa;
+  --background: linear-gradient(135deg, #f0fdf4 0%, #fef2f2 50%, #eff6ff 100%);
+  --foreground: #3f3f46;
+}
+
+[data-theme="tie"] body {
+  background: linear-gradient(135deg, #f0fdf4 0%, #fef2f2 50%, #eff6ff 100%);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

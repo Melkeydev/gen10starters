@@ -57,12 +57,19 @@ export default function Home() {
 
   const totalVotes = votes.browt + votes.pombon + votes.gecqua;
 
-  const leader: Starter | null =
-    totalVotes === 0
-      ? null
-      : (Object.entries(votes) as [Starter, number][]).reduce((a, b) =>
-          a[1] >= b[1] ? a : b
-        )[0];
+  const getLeader = (): Starter | "tie" | null => {
+    if (totalVotes === 0) return null;
+    const sorted = (Object.entries(votes) as [Starter, number][]).sort(
+      (a, b) => b[1] - a[1]
+    );
+    const topCount = sorted[0][1];
+    const tiedLeaders = sorted.filter(([, count]) => count === topCount);
+    if (tiedLeaders.length > 1) return "tie";
+    return sorted[0][0];
+  };
+
+  const leader = getLeader();
+  const isTie = leader === "tie";
 
   const fetchVotes = useCallback(async () => {
     try {
@@ -128,10 +135,14 @@ export default function Home() {
           <p className="text-lg opacity-70">
             Pokemon Winds &amp; Waves — Gen 10 Starter Vote
           </p>
-          {leader && !loading && (
+          <p className="mt-2 text-sm font-medium opacity-50">
+            Only the best starter gets to choose the colors
+          </p>
+          {!loading && leader && (
             <p className="mt-3 text-sm font-medium opacity-60">
-              {starters.find((s) => s.id === leader)?.name} is in the lead!
-              The site theme reflects the current winner.
+              {isTie
+                ? "It's a TIE! The starters are battling it out!"
+                : `${starters.find((s) => s.id === leader)?.name} is in the lead! The site theme reflects the current winner.`}
             </p>
           )}
         </div>
