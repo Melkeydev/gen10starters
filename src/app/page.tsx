@@ -138,7 +138,7 @@ export default function Home() {
           <p className="mt-2 text-sm font-medium opacity-50">
             Only the best starter gets to choose the colors
           </p>
-          {!loading && leader && (
+          {voted && !loading && leader && (
             <p className="mt-3 text-sm font-medium opacity-60">
               {isTie
                 ? "It's a TIE! The starters are battling it out!"
@@ -191,19 +191,21 @@ export default function Home() {
                     </div>
                     <p className="mb-4 text-sm opacity-70">{starter.description}</p>
 
-                    {/* Vote bar */}
-                    <div className="mb-3">
-                      <div className="mb-1 flex justify-between text-sm font-medium">
-                        <span>{votes[starter.id]} votes</span>
-                        <span>{pct}%</span>
+                    {/* Vote bar - only visible after voting */}
+                    {voted && (
+                      <div className="mb-3">
+                        <div className="mb-1 flex justify-between text-sm font-medium">
+                          <span>{votes[starter.id]} votes</span>
+                          <span>{pct}%</span>
+                        </div>
+                        <div className="h-3 overflow-hidden rounded-full bg-accent-light">
+                          <div
+                            className="h-full rounded-full bg-accent transition-all duration-700"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
                       </div>
-                      <div className="h-3 overflow-hidden rounded-full bg-accent-light">
-                        <div
-                          className="h-full rounded-full bg-accent transition-all duration-700"
-                          style={{ width: `${pct}%` }}
-                        />
-                      </div>
-                    </div>
+                    )}
 
                     {/* Vote button */}
                     <button
@@ -224,13 +226,6 @@ export default function Home() {
               );
             })}
           </div>
-        )}
-
-        {/* Total */}
-        {!loading && (
-          <p className="mt-8 text-center text-sm opacity-50">
-            {totalVotes} total vote{totalVotes !== 1 ? "s" : ""} cast
-          </p>
         )}
 
         {/* Footer */}
